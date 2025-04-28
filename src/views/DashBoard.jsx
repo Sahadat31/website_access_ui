@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ScanPage = () => {
+const DashBoard = () => {
   return (
     <div>ScanPage</div>
   )
 }
 
-export default ScanPage;
+export default DashBoard;

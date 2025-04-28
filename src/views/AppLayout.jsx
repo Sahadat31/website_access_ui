@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 
 const AppLayout = () => {
     return (
-        <div>
+        <div className="grid grid-rows-[auto_1fr_auto] h-screen">
             <Header/>
             <div>
                 <main>

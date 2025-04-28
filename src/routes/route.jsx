@@ -5,6 +5,7 @@ import About from "../views/About";
 import Pricing from "../views/Pricing";
 import Account from "../views/Account";
 import Register from "../views/Register";
+import Login from "../views/Login";
 
 const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     {
         path: 'register',
         element: <Register/>
+    },
+    {
+        path: '/login',
+        element: <Login/>
     }
 ])
 
