@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import WorkFlowIcons from "../components/WorkFlowIcons";
 import HomePageServices from "../components/HomePageServices";
-
+import { useSelector } from "react-redux";
 const Home = ()=> {
+  
+  const user_logged_in = useSelector(store=> store.user.authenticated)
   return (
     <motion.div 
       className="flex flex-col items-center justify-center min-h-screen bg-cyan-50 px-4 py-12"
@@ -42,7 +44,7 @@ const Home = ()=> {
         transition={{ duration: 0.8, delay: 0.7 }}
       >
         <Link
-          to="/scanner"
+          to={user_logged_in ? "/dashboard" : "/login"}
           className="bg-cyan-600 hover:bg-cyan-700 text-white text-lg font-semibold py-3 px-6 rounded-xl transition duration-300"
         >
           Start Scanning

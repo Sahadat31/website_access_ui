@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../api';
 import Alert from '../utils/Alert';
 import { useDispatch } from 'react-redux';
@@ -16,6 +16,7 @@ const Register = () => {
   const [validationError,setValidationError] = useState(null)
   const [error,setError] = useState(null)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const handleSubmit = async(e) => {
     e.preventDefault()
     if (user.password!==user.passwordConfirm) {
@@ -27,11 +28,10 @@ const Register = () => {
     }
     try {
       const res = await registerUser(user)
-      console.log(res)
       const [fName,lName] = res.data?.user?.name?.split(' ') || ['','']
       const email = res.data?.user?.email || ''
-      console.log(fName,lName,email)
       dispatch(register(fName,lName,email,res.token))
+      navigate("/dashboard")
       setError(null)
       setUser(defaultUser)
       setValidationError(null)
