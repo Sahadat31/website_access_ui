@@ -1,9 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LayoutDashboard, FileText, Search, LogOut } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../store/user/userSlice";
 
 const Sidebar = () => {
   const firstName = useSelector(store=>store.user.firstName)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const handleLogOut = ()=> {
+    dispatch(logoutUser())
+    navigate("/")
+  }
   return (
     <aside className="w-64 bg-cyan-600 text-white flex flex-col p-4 space-y-6">
       <h1 className="text-2xl font-bold tracking-wide">Hi, {firstName}</h1>
@@ -20,7 +27,7 @@ const Sidebar = () => {
           <FileText size={20} />
           Reports
         </Link>
-        <button className="flex items-center gap-2 hover:text-cyan-100">
+        <button className="flex items-center gap-2 hover:text-cyan-100" onClick={handleLogOut}>
           <LogOut size={20} />
           Log Out
         </button>

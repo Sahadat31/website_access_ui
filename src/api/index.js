@@ -14,3 +14,25 @@ export const registerUser = async(user) => {
         throw err.response?.data || 'Something went wrong!!';
     }
 }
+
+export const login = async(email,password) => {
+    try {
+        const res = await axios.post('http://localhost:3000/api/v1/user/login', {email,password})
+        return res.data
+    } catch(err) {
+        throw err.response?.data || 'Something went wrong!!';
+    }
+}
+
+export const scanUrl = async(url,token) => {
+    try {
+        const res = await axios.post('http://localhost:3000/api/v1/analysis/scan', {url}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res.data
+    } catch(err) {
+        throw err.response?.data || 'Something went wrong!!';
+    }
+}

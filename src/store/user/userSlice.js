@@ -29,9 +29,35 @@ const userSlice = createSlice({
                 state.authenticated = true,
                 state.access_token = action.payload.access_token
             }
+        },
+        loginUser: {
+            prepare(firstName,lastName,email,access_token) {
+                return {
+                    payload: {
+                        firstName,
+                        lastName,
+                        email,
+                        access_token
+                    }
+                }
+            },
+            reducer(state,action) {
+                state.firstName = action.payload.firstName,
+                state.lastName = action.payload.lastName,
+                state.email = action.payload.email,
+                state.authenticated = true,
+                state.access_token = action.payload.access_token
+            }
+        },
+        logoutUser(state,action) {
+            state.email = undefined,
+            state.authenticated = false,
+            state.firstName = undefined,
+            state.lastName = undefined,
+            state.access_token = undefined
         }
     }
 })
 
 export default userSlice.reducer;
-export const {register} = userSlice.actions;
+export const {register,loginUser,logoutUser} = userSlice.actions;
