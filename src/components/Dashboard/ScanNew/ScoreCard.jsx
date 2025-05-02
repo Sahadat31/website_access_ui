@@ -7,20 +7,19 @@ const ScoreCard = ({ score }) => (
       <PieChart width={150} height={150}>
         <Pie
           data={[{ value: score }, { value: 100 - score }]}
-        //   data={[{value: 40},{value: 20},{value: 20},{value: 20}]}
           innerRadius={50}
           outerRadius={70}
           startAngle={90}
           endAngle={-270}
           dataKey="value"
         >
-          <Cell fill="#00C49F" />
+          <Cell fill={score>=75 ? "#00C49F": score>=50 ? "#de7f40" : "#e01d27"} />
           <Cell fill="#f0f0f0" />
           {/* <Cell fill="#0300c4" />
           <Cell fill="#4ec400" /> */}
         </Pie>
       </PieChart>
-      <div className="absolute text-2xl font-bold text-green-600">{score}%</div>
+      <div className={`absolute text-2xl font-bold ${score>=75 ? 'text-green-600' : score>=50 ? 'text-orange-600': 'text-red-600'}`}>{score}%</div>
     </div>
   </div>
 );

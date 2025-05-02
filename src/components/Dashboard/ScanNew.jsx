@@ -5,44 +5,51 @@ import CategoryBreakdown from "./ScanNew/CategoryBreakdown";
 import IssueList from "./ScanNew/IssueList";
 import { scanUrl } from "../../api";
 import { useSelector } from "react-redux";
+import Loader from "../../utils/Loader";
 
 const ScanNew = () => {
   const [url, setUrl] = useState("");
   const [showResult, setShowResult] = useState(false);
+  const [issues, setIssues] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [typeCounts, setTypeCounts] = useState({ notice: 0, warning: 0, error: 0 })
   const token = useSelector(store=>store.user.access_token)
   const handleScan = async(e) => {
     e.preventDefault();
-    if (url.trim()) setShowResult(true);
-    const res = await scanUrl(url,token);
-    console.log(res.data)
+    setIsLoading(true)
+    if (url.trim()) {
+      try {
+        const res = await scanUrl(url,token);
+        setIssues(res.data.issues)
+        const counts = res.data.issues.reduce((acc, item) => {
+          const type = item.type.toLowerCase();
+          acc[type] = (acc[type] || 0) + 1;
+          return acc;
+        }, { notice: 0, warning: 0, error: 0 });
+        setTypeCounts(counts);
+        setShowResult(true);
+        setUrl("")
+      } catch(err) {
+        console.log(err)
+      } finally {
+        setIsLoading(false)
+      }
+
+    } 
   };
 
-  const overallScore = 92;
+  const overallScore = Math.ceil((typeCounts.notice/issues.length)*100);
   const categoryData = [
-    { name: "Perception", value: 90 },
-    { name: "Navigation", value: 98 },
-    { name: "Interaction", value: 88 },
+    { name: "Error", value: typeCounts.error },
+    { name: "Warning", value: typeCounts.warning },
+    { name: "Info", value: typeCounts.notice },
   ];
-  const issues = [
-    {
-      id: 1,
-      severity: "Medium",
-      title: "Missing Alt Text on Product Images",
-      guideline: "WCAG 2.1 - 1.1.1 Non-text Content (Level A)",
-      details: "5 product images on the shop page lack alternative text...",
-    },
-    {
-      id: 2,
-      severity: "Critical",
-      title: "Low Contrast Text in Footer",
-      guideline: "WCAG 2.1 - 1.4.3 Contrast (Minimum) (Level AA)",
-      details: "Light gray text on white background has low contrast...",
-    },
-  ];
+  
 
   return (
     <div className="space-y-6">
       <ScanForm url={url} setUrl={setUrl} onSubmit={handleScan} />
+      {isLoading && <Loader/>}
       {showResult && (
         <div className="space-y-6">
           <h2 className="text-xl font-semibold">Report: {url}</h2>
