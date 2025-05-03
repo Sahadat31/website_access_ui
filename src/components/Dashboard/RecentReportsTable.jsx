@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 const reports = [
     { url: "https://example.com", date: "2025-04-29", issues: 32 },
     { url: "https://product.com", date: "2025-04-27", issues: 56 },
@@ -5,6 +7,16 @@ const reports = [
   ];
   
   const RecentReportsTable = () => {
+    const recentHistory = useSelector(store=> store.user.history)
+    let mappedHistory = recentHistory.map(data=> {
+      return {
+        id: data._id,
+        url: data.url,
+        date: new Date(data.time).toLocaleDateString('en-GB'),
+        issues: data.issuesFound
+      }
+    })
+    mappedHistory = mappedHistory.length>5 ? mappedHistory.slice(-5) : mappedHistory
     return (
       <div className="bg-white p-4 rounded-xl shadow-md">
         <h3 className="text-lg font-semibold mb-4">Recent Reports</h3>
@@ -17,11 +29,11 @@ const reports = [
             </tr>
           </thead>
           <tbody>
-            {reports.map((report, i) => (
+            {mappedHistory.map((report, i) => (
               <tr key={i} className="text-sm hover:bg-gray-50">
                 <td className="py-2">{report.url}</td>
                 <td className="py-2">{report.date}</td>
-                <td className="py-2 text-red-500 font-medium">{report.issues}</td>
+                <td className="py-2 text-red-500 font-medium text-center">{report.issues}</td>
               </tr>
             ))}
           </tbody>

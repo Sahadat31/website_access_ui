@@ -8,7 +8,8 @@ const userSlice = createSlice({
         lastName: undefined,
         authenticated: false,
         access_token: undefined,
-        refresh_token: undefined
+        refresh_token: undefined,
+        history: []
     },
     reducers: {
         register: {
@@ -54,10 +55,14 @@ const userSlice = createSlice({
             state.authenticated = false,
             state.firstName = undefined,
             state.lastName = undefined,
-            state.access_token = undefined
+            state.access_token = undefined,
+            state.history = []
+        },
+        updateHistory(state,action) {
+            state.history = action.payload
         }
     }
 })
 
 export default userSlice.reducer;
-export const {register,loginUser,logoutUser} = userSlice.actions;
+export const {register,loginUser,logoutUser,updateHistory} = userSlice.actions;

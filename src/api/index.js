@@ -36,3 +36,16 @@ export const scanUrl = async(url,token) => {
         throw err.response?.data || 'Something went wrong!!';
     }
 }
+
+export const searchHistory = async(token) => {
+    try {
+        const res = await axios.get('http://localhost:3000/api/v1/user/searchHistory', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res.data
+    } catch(err) {
+        throw err.response?.data || 'Something went wrong!!';
+    }
+}
