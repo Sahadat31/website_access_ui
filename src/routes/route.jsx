@@ -10,6 +10,7 @@ import DashBoard from "../views/DashBoard";
 import ScanNew from "../components/Dashboard/ScanNew";
 import Reports from "../components/Dashboard/Reports";
 import DashboardHome from "../components/Dashboard/DashBoardHome";
+import Product from "../views/Product";
 
 const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
             {
                 path: "/pricing",
                 element: <Pricing/>
+            },
+            {
+                path: "/product",
+                element: <Product/>
             },
             {
                 path: "/dashboard",

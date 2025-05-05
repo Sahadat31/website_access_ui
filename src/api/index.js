@@ -49,3 +49,17 @@ export const searchHistory = async(token) => {
         throw err.response?.data || 'Something went wrong!!';
     }
 }
+
+export const downloadPdf = async(id,token) => {
+    try {
+        const res = await axios.get(`http://localhost:3000/api/v1/analysis/report/${id}/pdf`, {
+            responseType: 'blob',
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res
+    } catch(err) {
+        throw err.response?.data || 'Something went wrong!!';
+    }
+}

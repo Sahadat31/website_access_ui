@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import IssueTrendsChart from "./IssueTrendsChart";
 import RecentReportsTable from "./RecentReportsTable";
-import { Link } from "react-router-dom";
 const DashboardHome = () => {
     const userHistory = useSelector(store=> store.user.history)
     const totalIssuesFound = userHistory.reduce((acc,curr)=> acc+curr.issuesFound,0)
